@@ -37,9 +37,9 @@ import re
 # settings
 ################################################################################
 #cul_port            = '/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0' # /dev/ttyUSB0
-cul_port            = '/dev/ttyUSB0'
-cul_baud            = 38400
-mqtt_server         = '192.168.2.36'
+cul_port            = '/dev/ttyACM0'
+cul_baud            = 9600
+mqtt_server         = '192.168.178.36'
 mqtt_port           = 1883
 mqtt_SubscribeTopic = 'smarthome/cul/to/#'
 mqtt_PublishTopic   = 'smarthome/cul/device/'
@@ -129,10 +129,10 @@ class culRxTx(asyncio.Protocol):
 
 		# initialize CUL
 		self.transport.serial.write(b'V\r\nX21\r\n')
-		asyncio.sleep(0.3)
+		time.sleep(0.3)
 
 		self.transport.serial.write(cul_init)
-		asyncio.sleep(0.3)
+		time.sleep(0.3)
 
 		print('CUL init done.')
 
@@ -694,7 +694,7 @@ loop = asyncio.get_event_loop()
 #   loop – The event handler
 #   protocol_factory – Factory function for a asyncio.Protocol
 culSAIO = serial_asyncio.create_serial_connection(loop, culPartial, cul_port, baudrate=cul_baud)
-asyncio.ensure_future(culSAIO)
+# asyncio.ensure_future(culSAIO)
 asyncio.ensure_future(mqtt(mqttTxQueue, culTxQueue, mqtt_server, mqtt_port, mqtt_user, mqtt_pass, mqtt_ca))
 
 try:
