@@ -1,6 +1,5 @@
 # pycul
 
-*** deprecated, since at least python 3.4 - not longer maintained ***
 
 access CUL stick (based on http://culfw.de/) using Python3 
 
